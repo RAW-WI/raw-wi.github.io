@@ -1,0 +1,893 @@
+
+    <!DOCTYPE html>
+    <html lang="en"
+            
+          
+    >
+    <head>
+    <meta charset="utf-8">
+    
+
+    
+
+    
+    <title>
+        
+        Hexo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CUbuntu%20Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+    
+<link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/v4-font-face.min.css">
+
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+    <meta name="description" content="数据链路层&#x2F;物理层交换方式分组交换： 相较于报文传输是将拆包更为细致化和系统化。将一个文件报文全部打散成n个非常小的包，每个包都有相同的目标地址，并且排列次序都在分组包中已经标记；优势就是每个包能够实现独立传输，当某一个节点拥堵的时候则会选择其他路径。接收端通过包的标记就能还原出整个文件，如果此时确实某一个包，则会返回信息至源服务器缺失某一个包请求重发，这样相对于报文传输就是减小网络资源">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/10/18/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82-%E7%89%A9%E7%90%86%E5%B1%82/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82-%E7%89%A9%E7%90%86%E5%B1%82/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="数据链路层&#x2F;物理层交换方式分组交换： 相较于报文传输是将拆包更为细致化和系统化。将一个文件报文全部打散成n个非常小的包，每个包都有相同的目标地址，并且排列次序都在分组包中已经标记；优势就是每个包能够实现独立传输，当某一个节点拥堵的时候则会选择其他路径。接收端通过包的标记就能还原出整个文件，如果此时确实某一个包，则会返回信息至源服务器缺失某一个包请求重发，这样相对于报文传输就是减小网络资源">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/image/image_a9CqPCdL7y.png">
+<meta property="og:image" content="http://example.com/image/image_g_g8BEDrJW.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1532786/202106/1532786-20210608074058221-270614236.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903112448709.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lldHVnZW5n,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2023-10-18T13:07:17.457Z">
+<meta property="article:modified_time" content="2023-10-18T13:07:01.363Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/image_a9CqPCdL7y.png">
+    
+        <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+        
+<link rel="stylesheet" href="https://unpkg.com/typeface-source-code-pro@1.1.13/index.css">
+
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+    
+    
+    
+    
+    
+<script src="https://unpkg.com/pace-js@1.2.4/pace.min.js"></script>
+
+    
+        
+<link rel="stylesheet" href="https://unpkg.com/wowjs@1.1.3/css/libs/animate.css">
+
+        
+<script src="https://unpkg.com/wowjs@1.1.3/dist/wow.min.js"></script>
+
+        <script>
+          new WOW({
+            offset: 0,
+            mobile: true,
+            live: false
+          }).init();
+        </script>
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+    
+<div id='loader'>
+  <div class="loading-left-bg"></div>
+  <div class="loading-right-bg"></div>
+  <div class="spinner-box">
+    <div class="loading-taichi">
+      <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+      <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff6e6b" />
+      <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z" fill="#fd0d00" />
+      <path d="M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95" fill="#fd0d00" />
+    </svg>
+    </div>
+    <div class="loading-word">少女祈祷中...</div>
+  </div>
+</div>
+</div>
+
+<script>
+  const endLoading = function() {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loader').classList.add("loading");
+  }
+  window.addEventListener('load', endLoading);
+  document.getElementById('loader').addEventListener('click', endLoading);
+</script>
+
+
+    <div id="container">
+        <div id="wrap">
+            <header id="header">
+    
+        <img data-src="/images/banner.jpg" data-sizes="auto" alt="" class="lazyload">
+    
+    <div id="header-outer" class="outer">
+        <div id="header-title" class="inner">
+            <div id="logo-wrap">
+                
+                    
+                    
+                        <a href="/" id="logo"><h1>Hexo</h1></a>
+                    
+                
+            </div>
+            
+                
+                
+            
+        </div>
+        <div id="header-inner">
+            <nav id="main-nav">
+                <a id="main-nav-toggle" class="nav-icon"></a>
+                
+                    <span class="main-nav-link-wrap">
+                        <span class="main-nav-icon"></span>
+                        <a class="main-nav-link" href="/">Home</a>
+                    </span>
+                
+                    <span class="main-nav-link-wrap">
+                        <span class="main-nav-icon"></span>
+                        <a class="main-nav-link" href="/archives">Archives</a>
+                    </span>
+                
+                    <span class="main-nav-link-wrap">
+                        <span class="main-nav-icon"></span>
+                        <a class="main-nav-link" href="/about">About</a>
+                    </span>
+                
+                    <span class="main-nav-link-wrap">
+                        <span class="main-nav-icon"></span>
+                        <a class="main-nav-link" href="/friend">Friend</a>
+                    </span>
+                
+            </nav>
+            <nav id="sub-nav">
+                
+                    <a id="nav-rss-link" class="nav-icon" href="/atom.xml"
+                       title="RSS Feed"></a>
+                
+                
+            </nav>
+            <div id="search-form-wrap">
+                <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+            </div>
+        </div>
+    </div>
+</header>
+
+            <div id="content" class="outer">
+                <section id="main"><article id="post-数据链路层-物理层/数据链路层-物理层" class="h-entry article article-type-post"
+         itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <div class="article-inner">
+        <div class="article-meta">
+            <div class="article-date wow slideInLeft">
+    <a href="/2023/10/18/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82-%E7%89%A9%E7%90%86%E5%B1%82/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82-%E7%89%A9%E7%90%86%E5%B1%82/" class="article-date-link">
+        <time datetime="2023-10-18T13:07:17.457Z"
+              itemprop="datePublished">2023-10-18</time>
+    </a>
+</div>
+
+            
+
+        </div>
+        <div class="hr-line"></div>
+        
+
+        <div class="e-content article-entry" itemprop="articleBody">
+            
+                <h1 id="数据链路层-物理层"><a href="#数据链路层-物理层" class="headerlink" title="数据链路层&#x2F;物理层"></a>数据链路层&#x2F;物理层</h1><h2 id="交换方式"><a href="#交换方式" class="headerlink" title="交换方式"></a><strong>交换方式</strong></h2><p>分组交换：</p>
+<p>相较于报文传输是将拆包更为细致化和系统化。将一个文件报文全部打散成n个非常小的包，每个包都有相同的目标地址，并且排列次序都在分组包中已经标记；优势就是每个包能够实现独立传输，当某一个节点拥堵的时候则会选择其他路径。接收端通过包的标记就能还原出整个文件，如果此时确实某一个包，则会返回信息至源服务器缺失某一个包请求重发，这样相对于报文传输就是减小网络资源利用。劣势：每个包都得拆分在组合最源端和终端的网络设备负载要求较高、分组后复杂度较高、传输延迟不稳定，受实时的网络环境大，当某一个包在传输的时遇到多个线路拥堵则会无限增大延迟。</p>
+<p>报文交换：报文传输它拥有的特性几乎都被分组交换继承了，但是也有一部分分组交换没有的特性，比如：可靠性高，因为是整个文件传输能够通过检验和纠错实现对数据的恢复，都能单次实现，不需要像分组那样一个一个恢复，并且分组交换数据量很小，只能进行简答的纠错。</p>
+<p>报文交换和分组交换共有的特性：</p>
+<ul>
+<li><p>分割数据</p>
+<p>表示都需要将一整个数据文件转换为多个报文或者n个包</p>
+</li>
+<li><p>路由选择</p>
+<p>表示都需要将报文或者包存储在本地在通过报文或者包的头中查看他的目标地址，节点拿到目标地址及其其他信息之后通过对照自己的动态路由表查找报文或者包应该继续走哪一条线路传至哪一个节点。</p>
+</li>
+<li><p>错误检测和纠正</p>
+<p>表示都需要通过报文或者包中携带的纠错码、检验方式等检测报文或者包在传输的过程中有没有被篡改或者数据丢失；并能过通过编码方式试图还原错误的报文或者包中的数据，如果无法还原则会像源服务器发送重发请求（）。</p>
+</li>
+<li><p>网络资源共享</p>
+<p>表示两种方式都共享网络资源，不会说当前有一个报文或者包在传输的时候其他的传输请求就只能干等着，其实网络资源共享这方面分组传输做得更优秀。</p>
+</li>
+<li><p>数据交换协议</p>
+<p>表示它们都需要一个各自体系内统一的标准，以保障数据的正确传输和解析。</p>
+</li>
+<li><p>数据交换控制</p>
+<p>表示数据报文或者包在传输过程中都需要进行数据交换的控制，其中包含流量控制、拥塞控制等以防数据传输延迟过高。</p>
+</li>
+</ul>
+<p>电路交换：电路交换有点极其明显，缺点也极其致命；</p>
+<ul>
+<li>优点：在线路没有被占用的时候延迟极低，可以达到理论数据的传输延迟；传输稳定，因为是占用了整个先线路，因此在线路占用未被释放时，不会影响它的传输稳定性；复杂度低，表现在数据文件不需要通过各种转发、分割、检验等操作。</li>
+<li>缺点：网络资源利用率极低，当一个线路被占用时会影响线路上大部分其他线路的传输，都需要等前面一个线路传输完了以后才能尝试连接；不能动态变化，当其中某一个线路不通畅时不会选择其他线路尝试传输连接，即使能选择连接则会造成网络资源利用率极度低下的问题；扩展性差，不能适应新设备的加入实现动态的规划路线。</li>
+</ul>
+<h4 id="计算机网络特性："><a href="#计算机网络特性：" class="headerlink" title="计算机网络特性："></a>计算机网络特性：</h4><h4 id="网络性能指标"><a href="#网络性能指标" class="headerlink" title="网络性能指标"></a>网络性能指标</h4><ul>
+<li><p>速率：表示单位时间传输bit量，通常表示<strong>额定传输速率或者标称速率</strong></p>
+</li>
+<li><p>宽带：表示线路在无其他因素影响下时单位时间内理论传输上限。</p>
+</li>
+<li><p>吞吐量：表示电脑通过串口单位时间传输的数据总量，也就是常看见的收到各种因素影响下的实际传输速率。</p>
+</li>
+<li><p>时延：分四大部分</p>
+<ul>
+<li>发送时延：是指当前体积的数据包大小通过有限吞吐量网络环境下的时间；</li>
+<li>传输时延：是指数据在物理传输环境下需要的时间；</li>
+<li>排队时延：是指当数据包到达对应终端位置的时候排队等待处理；</li>
+<li>处理时延：是指需要对当前的数据包进行校验或者恢复等处理一系列在传输过程中出现的问题。<br>所以总时延的计算方式是：发送时延+传输时延+排队时延+处理时延 &#x3D; 总时延</li>
+</ul>
+</li>
+<li><p>时延带宽积：</p>
+<p>用传输时延*带宽大小就能计算出当终端收到第一个bit的时候发送端已经发送了多少个bit（假设当终端接收到一个bit时发送端还在发送的条件下）</p>
+</li>
+<li><p>RTT（往返时间）</p>
+<p>它指的是一个数据在完整传输到指定位置并且在终端校验或者出现问题需要重发时返回给源服务器一个信息，确定已经传输完成或者需要重发。</p>
+<p>往返时间计算方式收终端需要向源服务器的数据包大小影响</p>
+<p>大致计算方式：源服务器发送时延+2*传输时延+终端排队时延+服务器端排队时延+终端处理时延+服务器端处理时延+终端发送时延&#x3D;往返时延。</p>
+</li>
+<li><p>利用率：</p>
+</li>
+</ul>
+<h4 id="协议与划分层次"><a href="#协议与划分层次" class="headerlink" title="协议与划分层次"></a>协议与划分层次</h4><ul>
+<li>语法：数据与控制信息的结构或格式。</li>
+<li>语义：需要发出何种控制信息，完成何种动作以及做出何种回应。</li>
+<li>同步：时间实现顺序的详细说明。</li>
+</ul>
+<h2 id="信道的基本概念"><a href="#信道的基本概念" class="headerlink" title="信道的基本概念"></a>信道的基本概念</h2><h4 id="传输方式"><a href="#传输方式" class="headerlink" title="传输方式"></a>传输方式</h4><ol>
+<li>单向信道：一次只能从终端A发送至终端B，无法实现交流。</li>
+<li>双向交替信道：一次只能从终端A发送至终端B，但是可以从终端B发送至终端A。不能双向同时传输。</li>
+<li>双向同时信道：解决以上两种传输方式的所有缺点。</li>
+</ol>
+<h4 id="信道带宽"><a href="#信道带宽" class="headerlink" title="信道带宽"></a>信道带宽</h4><ul>
+<li>是指信道内包含了可以传输的最高频率和最低频率的差值，信道带宽决定了系统能够传输的数据量和传输速率的上限。较大的信道带宽可以提供更高的数据传输速率和更大的容量，适用于高速数据传输和大容量通信需求。</li>
+</ul>
+<h4 id="编码方式"><a href="#编码方式" class="headerlink" title="编码方式"></a>编码方式</h4><ol>
+<li>不归零制：只有0&#x2F;1。</li>
+<li>归零制：在检测有效区间内有一部分处于0&#x2F;1状态，当要切换的下一个有效区间的时边界就复位至初始状态(即既不是1也不是0)。</li>
+<li>曼切斯特编码：在有效区间内下降沿表示1，上升沿表示0，边界状态随下一个有效区间内变化而变化。</li>
+<li>差分曼切斯特编码：边界变化表示0，为变化表示1，有效区间内一直会发生跳变。</li>
+</ol>
+<h4 id="基本的带通调制方法"><a href="#基本的带通调制方法" class="headerlink" title="基本的带通调制方法"></a>基本的带通调制方法</h4><p>使用高频电磁波的原因是它具有较短的波长；振幅较大所以具有较大的能量，在空间内传输过程中抗衰性能受制于频率，高频传输的数据量理论上更大，但是也受制于信道带宽、环境干扰、噪声等因素，所以传输速度远低于理论值。</p>
+<ol>
+<li><p>调幅</p>
+<p>频率相同、相位不变的情况下当单位之间内振幅大的表示1，振幅小的表示0。</p>
+</li>
+<li><p>调频：在振幅、相位不变的情况下，单位之间内频率高表示1，频率低表示0。</p>
+</li>
+<li><p>调相（相位）：在振幅、频率不变的情况下，单位之间内不偏转180°表示0，偏转180°表示1.</p>
+</li>
+</ol>
+<h4 id="总结以及衍生技术"><a href="#总结以及衍生技术" class="headerlink" title="总结以及衍生技术"></a>总结以及衍生技术</h4><p>这三种不同的表示调制方式都能够单独使用，但是出现的问题是单种调制方式很难达到更高的传输数据量，这时就出现了一种通过振幅和相位相配合达到一次传输多位二进制的技术即<strong>正交振幅技术QAM</strong>，此时必备一个前提条件，他的频率是不能改变的，因为信道带块是以频率划分的。</p>
+<p>不同的振幅和相位表示不同的二进制</p>
+<p><img src="/image/image_a9CqPCdL7y.png"></p>
+<p><img src="/image/image_g_g8BEDrJW.png"></p>
+<p>使用振幅和相位参数调整波</p>
+<h4 id="信道频率范围"><a href="#信道频率范围" class="headerlink" title="信道频率范围"></a>信道频率范围</h4><ul>
+<li>码间串扰：一个波形和后面一个波形之间的界限变得不清晰，即码元之间的界限不清晰导致无法准确识别。</li>
+<li>奈氏准则：假定在理想状态下为避免码间串扰码元传输的理论上限。<br>在带宽为W （Hz）的低通信道中，若不考虑噪声影响，则码元传输的最高速度是2*W(Hz&#x2F;s)，传输超过此上线则会产生严重的码间串扰问题，此时接收端识别码元将会出现严重的问题，</li>
+<li>信噪比：是指信号的平均功率和噪声的平均功率之比。计算方式：</li>
+</ul>
+<p>$$<br>信噪比（dB）&#x3D;10 \log_{10}(S &#x2F; N)<br>$$</p>
+<ul>
+<li>香农公式：表示信道的极限信息传输速率。</li>
+</ul>
+<p>$$<br>C&#x3D;W\log_2(1+S &#x2F; N)~~~~~~~(bit&#x2F;s)<br>$$</p>
+<blockquote>
+<p>总结：信道的带宽或信道的信噪比越大，信息的极限传输速率就越高。信噪比越大，误码率越低。</p>
+</blockquote>
+<h4 id="信道复用技术"><a href="#信道复用技术" class="headerlink" title="信道复用技术"></a>信道复用技术</h4><ul>
+<li><p>频分复用FDM：</p>
+<p>每个设备申请占用一个频段进行传输数据。单个时间区间内只能调制一个频率，有点像电路交换的特征。延迟不稳定，当某一个频率一直占线传输状态的话，那么就下一个信息包就只能一直排队等待。</p>
+</li>
+<li><p>时分复用TDM：</p>
+<p>单位时间区间内可以调制多个频率，也就是代表着可以同时传输多个设备。但是存在一个时间区间到底分多少个间隙，间隙不是无限的，他受制于信道带宽，以及每一条信道的频率。延迟也受制于单次传输的数据量和间隙时间。假如现在终端A7要传一个包，它的正好是时间区间单个间隙大小的两倍，那么他就必须传输两次时间间隙，即使别的信道根本就没有传输东西，那么他的延迟就是2倍的时间间隙。所以先推出了一个优化方案：统计时分复用，他的意思就是每次都要等单个时间区间装满了在TDM发送。假如说按照刚刚那个案例，刚刚的传输环境就可以利用别的空载时间间隙传输自己的数据，这样就能减小延迟并增大单位时间区间的数据占用率。</p>
+</li>
+<li><p>波分复用TDM：</p>
+<p>至光的频分复用，用多条不同宽度的光波传输数据，因为他们波长不同，光纤的载波量很大，相互之间干扰较小。</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>码分复用CDMA:</p>
+<p>大致技术原理：就是说某一个频率的波在传输的过程中通过调整他的波幅和相位标记成多个码片序列，这样就能使的同等长度的波能够传输更多的信息，并且根据CDMA标准发送端只需要发送一段就能被所有被分配码片序列的接收端接收，但是接收端发送的东西不知道其中有没有我的信息，并且也不知道发送的啥，此时就需要在本地通过发送的<strong>扩列码</strong>与自己的码片序列进行<strong>正交</strong>，这样就能识别出发送端是给我发的啥或者有没有给我发，</p>
+<p>识别方式：“0”：发送端未发送。</p>
+<p>&#x20;            “1”：发送端发送的 “ 1 “。</p>
+<p>&#x20;        “-1”：发送端发送的 “ 0 “。</p>
+</li>
+</ul>
+<hr>
+<h2 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h2><ul>
+<li>基本概念、结构、原理<ol>
+<li><p>在物理层之上，他的主要作用就是将网络层给到数据流封装成一个一个的数据帧，每个数据帧都有首部和尾部来标记帧最后完整的传输到接收方，如果在传输的过程中丢失其中的数据他能够自己差错检测，但是不能自己修复错误。</p>
+<p>透明传输：传输的数据帧有中帧首部和帧尾部都是用一些控制字符标记的，但是难免直接的数据中存在正好和控制字符一样的编码，那么就需要通过另一个控制字符标记这些会产生误判的控制字符，也就是说这些控制字符一定都是成对出现在数据中的；</p>
+</li>
+<li><p>传播方式</p>
+<p>点对点信道：PPP</p>
+<p>广播信道：CDMA&#x2F;CD（在上文已讲解）</p>
+</li>
+<li><p>sss</p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><h4 id="数据链路和帧"><a href="#数据链路和帧" class="headerlink" title="数据链路和帧"></a>数据链路和帧</h4><p>链路是指输出再传输时经过的物理路径；数据链路是指数据在物理路径上正确传输，也就是说之间必须有一个协议标准限定创数方式；这两个也可以被叫物理链路和逻辑链路。</p>
+<p>数据链路层的单位是：帧&#x20;</p>
+<p>数据链路层任务就是将网络层传下来的IP数据报通过标准协议构成帧在传输到链路上，还有就是将链路上接收到的帧通过相同的标准协议拆解成正确的IP数据报给上层的网络层，并给发送端返回以正确接受的消息，发送端就释放此传输任务；当出现错误是则向发送端返回出现错误的信息，发送端收到后则会再次发送，加入一直出现传输错误，那么就根据服务器端的发送限制，即使终止发送任务，以免资源浪费。</p>
+<h4 id="三个基本问题"><a href="#三个基本问题" class="headerlink" title="三个基本问题"></a>三个基本问题</h4><ol>
+<li><p>封装成帧</p>
+<p>数据链路层将网络层传下来的IP数据报根据数据链路层的标准和协议给报文添加<strong>帧定界</strong>，并且限定IP数据包的最大长度，也就是说天大的话会分好几次发。也就产生<strong>最大传送单元MTU</strong>，以及帧定界中的<strong>帧首部SOH</strong>和 <strong>帧尾部EOT</strong>。接受端会根据一个帧的首部和尾部判断是否以及接受完成，当直接受到尾部或者首部是则会丢弃这些不完整的帧。</p>
+</li>
+<li><p>透明传输</p>
+<p>是指一个IP数据报种难免会出现与帧首部、帧尾部或者其他控制信息产生冲突的字段，我们就需要将这些特殊的字段使用一个转义字符标记一下，让接收端不会误判。此时引出了转义字符ESC <strong>，</strong> 在IP数据报中会标记每一个会产生误解的字段。</p>
+</li>
+<li><p>差错控制</p>
+<p>就是检测传过来的帧存不存在错误，假设存在错误就返回重新发送的请求。</p>
+<ul>
+<li><p>奇偶校验码</p>
+<p>在帧中添加一位校验码，当数据中出现单个bit错误是就会使得奇偶性改变，但是出现多个bit错误并且正好中和则无法检测出，也就限制它只能在一个第误码率的环境下使用。</p>
+</li>
+<li><p>CRC循环冗余校验</p>
+<p>使用特地的多项式除以CRC得出冗余码FCS，再把校验码附加在帧里一起传输到接收端。</p>
+<ul>
+<li>特定的生成多项式P(X)常用分为一下<br>$$<br>CRC-16&#x3D;X^{16}+X^{15}+X^{2}+1<br>$$<br>$$<br>CRC-CCITT&#x3D;X^{16}+X^{12}+X^{5}+1<br>$$<br>$$<br>CRC-32&#x3D;X^{32}+X^{26}+X^{23}+X^{22}+X^{16}+X^{12}+X^{11}+X^{10}+X^{8}+X^{7}+X^{5}+X^{4}+X^{2}+1<br>$$<br>通过以上的除数计算得出冗余码FCS，也就是加在末尾的帧校验序列码。将源码和帧校验序列码组合的完整的帧除以CRC就会出现两种情况：</li>
+</ul>
+<p>第一种：余数R&#x3D;0，则判定此帧没有差错。</p>
+<p>第二种：余数R≠0，则判定此帧有差错并丢弃此帧。</p>
+<p>通过这些特定的编码就能确定在传输的过程中有没有出错，但是不使用加密的话数据被恶意修改无法察觉。</p>
+<p><strong>传输差错分为两大类：</strong></p>
+<ul>
+<li>比特差错</li>
+<li>传输差错：没有出现bit差错，但是出现了帧丢失、帧重复、帧失序。此类差错较为复杂&#x20;<blockquote>
+<p>‼️需补齐 &#x20;<br>在CRC中只能确定在传输过程中不会出现bit差错，但是无法保证传输差错，也就是说传输不可靠，针对出现的传输差错，指定了新的标准，也就是CRC中添加的帧编号、确认和重传机制，就是在一定时间内没有收到接收端返回的确认成功接受的信息时就一直向接收端发送帧，直到收到接收端发回来的确认信息，这种方式适用于通信质量不高的环境中，缺点是过度使用信道带宽资源。在通信质量高的环境下就不需要确认和重传机制。通过这些方式就能大大提高通信效率与质量。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>海明码</p>
+<p>海明码是一种用于错误检测和纠正的编码技术</p>
+<p>具体实现原理</p>
+<ol>
+<li>数据编码：将要传输的数据分成若干个数据块，并为每个数据块添加冗余位。冗余位的数量取决于数据块的大小。</li>
+<li>冗余位 的位置：冗余位的位置是根据海明码的规则计算得出的。海明码规定，冗余位的位置是2的幂次方，即第1位、第2位、第4位、第8位等。</li>
+<li>计算冗余位的值：冗余位的值是根据数据块中其他位的值计算得出的。冗余位的值是使得该位和与之相关的数据位的奇偶性一致。</li>
+<li>错误检测：在接收数据时，对每个数据块的冗余位进行检测。如果检测到冗余位与数据位的奇偶性不一致，则说明数据存在错误。</li>
+<li>错误纠正：如果检测到错误，可以利用冗余位的信息来纠正错误。通过比较冗余位的值和实际计算得到的冗余位的值，可以确定错误的位置，并进行纠正。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="数据链路层传输协议"><a href="#数据链路层传输协议" class="headerlink" title="数据链路层传输协议"></a>数据链路层传输协议</h4><p>在数据链路层中包含多个传输协议，其中包含：PPP点对点传输协议、高级数据链路控制HDLC、以太网、WI-FI协议等。</p>
+<ul>
+<li><p><strong>点对点传输协议 PPP</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chaguang/p/8097967.html">https://www.cnblogs.com/chaguang/p/8097967.html</a></p>
+<ul>
+<li><p>优点：他是面向可靠的传输方式，在数据帧的传输过程中会省略掉很多与CRC和原始数据的信息，这样就能减小每个数据帧的大小，在同等体积下就能传输更大的原始数据。它的原始数据装载机制使得它本身就能被多种网络层协议识别，就省去了面向单个网络层协议另外发送符合调调价的数据帧。数据压缩机制，使得同等体积可以装入更多的原始数据。</p>
+</li>
+<li><p>缺点：因为对传输的可靠性较高，所以在不常见的情况下出现CRC检测报错，那就得全部重新开始传输，传输延迟较高。不适用于大规模的使用，PPP点对点连接就意味着同一时间会有很多线路占用，即使单挑线路并没有传输数据也会占用带宽。<br>PPP传输协议数据帧结构图解<br><img src="https://img2020.cnblogs.com/blog/1532786/202106/1532786-20210608074058221-270614236.png"></p>
+</li>
+<li><p><strong>首部</strong></p>
+<p>F：就表示帧的开始</p>
+<p>A：<strong>地址字段</strong>，因为点对点协议仅作用于两个实体，发送方无需知道对方的地址，所以没有实际作用；</p>
+<p>C：<strong>控制字段</strong>，也没有实际作用；</p>
+<p>协议：<strong>协议类型</strong>，指定信息部分的类型。</p>
+<ul>
+<li>0x0021时，数据部分是IP数据报。</li>
+<li>0xC021时,数据部分是LCP数据（链路控制协议）。</li>
+<li>0x8021时，数据部分是NCP（网络控制协议）数据。</li>
+<li>0xC023 时，数据部分是PAP数据。</li>
+<li>0xC025时： LCP中链路质量报告LQR</li>
+<li>0xC223 时，数据部分是CHAP数据</li>
+</ul>
+</li>
+<li><p>IP数据报</p>
+<p>网络层能识别的信息。</p>
+</li>
+<li><p>尾部</p>
+<p>FCS：尾部从左至右依次是<strong>帧检验序列</strong>，用于校验帧在传输过程中是否出现差错；</p>
+<p>F：<strong>帧定界符</strong>，表示帧的结束</p>
+</li>
+</ul>
+<!---->
+<ul>
+<li>简述传输流程及原理<ol>
+<li>试图创建线路：在数据帧中的协议中表示当前数据帧是LCP协议，就是说每个节点都是独立的，A1节点与A2协商完成后，A2节点又与后续的节点协商，直到最后一个节点都满足之后回应源节点<strong>LCP配置信息</strong>并开始传输信息。</li>
+<li>线路创建完毕后，只是链路层实现了，但是网络层还是识别不了，所以接着就要协商双方网络层都能识别的协议，源节点发送至端节点，端节点就寻找符合自己的网络层协议回传给源节点，交换<strong>NCP配置信息</strong>。</li>
+<li>这时候就是按照LCP给的信息和NCP给的信息进行对IP数据报、校验信息等数据编辑成数据帧的发送，此时端节点能够接受并识别数据帧。</li>
+<li>端节点接收到之后对数据帧插接并校验有没有出错，假如出现错误就返回请求重发。没有错就将数据传给网络层进一步处理。</li>
+<li>当数据传输完毕之后回想源节点发送释放路线请求，源节点回应之后就释放此链路，端节点接收到回应之后也释放链路。<br>在传输的过程中不是一直都在发送有效数据帧，而是会间歇性的往返FCP配置信息数据帧，以维护链路的健康。</li>
+</ol>
+</li>
+<li>详述传输流程及原理<ul>
+<li>当前环境的壁垒<ol>
+<li>其实每台电脑都没有独立的公网ip的，都是属于一个内网的一份子。</li>
+</ol>
+</li>
+</ul>
+<ol>
+<li><p>第一步就是建立对等的链路连接，具体步骤如下</p>
+<p>发送端通过拨号向isp建立连接，把这边的LCP信息发过去，与isp建立链路连接；此时接收端也以同样的操作向isp发送请求连接；当此时会出现他们不是属于同一个isp下时，一方isp就回去根据ip地址去寻找另一方根isp，一位接收端已经和它的根isp产生了连接，只要找到接收端的根isp就能成功连接。同isp下就会简单很多。</p>
+<p>此上正常连接成功的情况，下面介绍lcp协商协议的会遇到的情况；</p>
+<ol>
+<li>配置确认帧：全接受</li>
+<li>配置否认帧：接受一部分，还需要再次协商</li>
+<li>配置拒绝帧：全盘否认，无法识别或者<br>链路双方在协商期间会遇到比如会在ISP上进行口令鉴别协议PAP，就是说发送放需要知道接受接受方的口令才能正常连接，具体尝试次数由ISP决定，假如这种方式觉得不安全，可以使用更为复杂的口令握手假别协议CHAP鉴别失败就会进入链路终止模式，假如上面都正常连接成功的话，则可进入下一层的协议匹配。</li>
+</ol>
+</li>
+<li><p>第二部当产生链路上的连接之后就需要对收发方的网络层的协议进行匹配，也就是NCP进行协商。</p>
+<p>isp之间的链路成功之后就需要通过收发端的网络协议进行协商，通过协商一致的网络协议之后就能完整的建立连接。此时假如他们协商的是IP协议，他们就需要知道对方的IP，此时就能通过IPCP协议发送ppp帧，但是在IP协议中需要使用TCP对帧的成功接收进行验证，但是在ppp的特性里可以完全忽略这一步，也就是说在协商的时候就可以直接把这部分的验证bit去除，使得有效bit的数据量更大，传输效率更高。</p>
+<p>在传输的过程中还可以是不是发送一个LCP的链路检测的帧，实时的对链路通常情况有了解，有助于传输的稳定性。</p>
+</li>
+<li><p>当数据传输完之后就需要一方发送终止请求LCP，接收方接收到以后也会终止连接。</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>使用广播信道的数据链路层</p>
+<ul>
+<li><p><em><strong>重点</strong></em></p>
+<ol>
+<li>争用期</li>
+<li>CSMA&#x2F;CD</li>
+</ol>
+</li>
+<li><p>共享信道实现的传输方法具体有两种实现方式</p>
+<ol>
+<li><p>静态划分信道</p>
+<p>就是说使用前面的信道复用技术实现每个终端都能拿到一个独立的时隙、令牌等，通过终端自己计算或者其他方式实现数据的独立传输。</p>
+</li>
+<li><p>动态媒体接入控制</p>
+<ul>
+<li>随机接入：就是说每个设备想要发送就发送，完全不用考虑帧碰撞造成的传输失败等影响，主打的就是一个运气。</li>
+<li>受控接入：基于随机接入解决的会产生碰撞的缺点，具体实现方式是节点设备有一个令牌，大家互相约定令牌发到谁手上谁才能发送信息，这样就能实现帧碰撞的问题：但仍存在以下问题：1、当局域网中有一个终端想要发送数据的时候没有及时收到令牌的话就会造成延迟，虽然延迟不影响体验，解决办法有三种1、等待令牌2、请求令牌3、重试机制。其中请求令牌设计到了其他技术，其中包括<strong>载波侦听多路访问（Carrier Sense Multiple Access，CSMA）</strong>：就是检测线路上有没有别的终端正在传输数据，提前避免发生帧碰撞；碰撞检测（Collision Detection，CD）：当发生帧碰撞的时候会自动的及时停止发送；二进制指数退避算法（Binary Exponential Backoff）：通过算推算出确定等待的时间，然后终端会选择一个退避的时间间隔，之后再重新发送请求令牌，如果还是会发生碰撞，那么以上重复直至发送成功。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>以太网的主要两个标准</p>
+<ol>
+<li>逻辑链路控制层</li>
+<li>媒体介入控制MAC</li>
+</ol>
+</li>
+<li><p>适配器的作用</p>
+<p>当下我们的适配器就是指的网卡，网卡有自己独立处理器和储存器（在以前都是没有的），由于集成度很高，现在的网卡已经无法细分属于哪一个层了，随着功能越来越强大，很多情况都不再需要与cpu协商自己解决。</p>
+</li>
+<li><p>CSMA&#x2F;CD&#x20;</p>
+<p>以太网主要采用了这个协议，并且使用曼切斯特编码传输数据。</p>
+<p><strong>主要要点：</strong></p>
+<p>“多点接入”：也就是在听一条总线上有多个终端。协议实质上是“载波监听”和“碰撞检测”</p>
+<p>载波监听也就是便发送边监听，不管是在想要发送数据或者正在发送数据都要时时刻刻检测每个而站点信道。如果在发送之前检测出别的终端站点正在发送信息，则会暂时取消发送，如果是正在发送则会立即停止发送。这就称为“碰撞检测”</p>
+<p>碰撞检测的具体实现原理：就是检测到线路上的电压变化，也就是当线路上有两个或者多个在发送信息时就会出现高电平重叠，电压值超出正常传输的理论值，则判断为出现了“帧碰撞的情况”；</p>
+<p>当线路上出现帧碰撞时每个站点都会自动的取消发送，使得线路能够马上恢复，避免不必要的时间。当线路恢复正常之后，载波监听到线路未被使用又会以上面的相同步骤进行信息传输。</p>
+<p>具体的载波检测和如何在不同的传播时隙进行传输数据：也就提出了争用期的概念，也就是说线路中与两个站点的最远距离的往返时间作为基点，指定了指定的争用期时间，他收到传输带宽，传输距离等条件影响，总之系统会通过算法计算出一个合理的争用期时间。</p>
+<p>数据发送：提及到以上的争用期概念，就能理解发送端如何才能知道自己的数据帧是否没有出现碰撞，完好的传给交换机等设备了——当争用期期间都没有出现碰撞异常则表明以及正常传输了。</p>
+<p>有了争用期时间，如何确定我应该什么时候发送呢：</p>
+<ol>
+<li>1-坚持策略：设备在侦听到媒介上没有信号时立即发送数据。这种策略适用于低负载的网络，其中冲突的可能性较小。</li>
+<li>p-坚持策略：设备在侦听到媒介上没有信号时等待一个随机的时间窗口，然后再次侦听。这个随机时间窗口的长度取决于设备数量和网络拓扑结构。这种策略适用于中等负载的网络。</li>
+<li>非坚持策略：设备在侦听到媒介上有信号时等待一段时间后再次进行侦听。这个等待时间是随机的，并且逐渐增加。这种策略适用于高负载的网络，可以减少设备之间的冲突。<br>加入出现了碰撞，此时发送端就一定要强化碰撞的人为干扰信号，使得所有终端都知道出现碰撞。并且规定最小时间间隔是9.6纳秒，这样做是为了接收缓存来得及清理缓存。<br>具体解释争用期：就是说以太网协议中两点之间最远距离不超过5KM（收物理环境限制—电信号光信号在空间内传输的速度），所以以太网在10mb的传输速率下就规定争用期为512bit时间（500m）；其实我们生活中很难遇的局域网等运用到以太网的环境中很难达到5KM以上的，所以512bit时间的争用期其实冗余量是非常充足的，就可以适当的减小冗余量使其带宽更高。但是对于10mb以外的传输速度就需要根据实际的拓扑环境等元素实时制定，假如现在的网络带宽是1000mb&#x2F;s  那么假设在帧长度不变的情况下，限制最长传输距离、提高调制频率等都能实现提高带宽并且传输距离没有下降的很离谱。</li>
+</ol>
+</li>
+<li><p>使用集线器的星芯拓扑</p>
+<p>集线器工作在物理层，他的主要作用就是bit的接受和转发，但是现在的极限拥有了一些新的特性，那就是可以实现线路的切断、维护整个线路波峰稳定。</p>
+</li>
+<li><p>以太网MAC层</p>
+<ol>
+<li><p>MAC硬件地址</p>
+<p>在局域网中硬件地址又称为物理地址或者MAC地址，是一个标识系统，这个地址他已经固化在是配置的rom中，无法被改变，但是它是以有限的资源。在分配适也不是随机分配的，是各个厂商需要在IEEE下的注册管理机构RA将六个字节中的前三个字节购买作为厂商唯一的组织标识符，也就是说能够通过前三个字节就能分辨厂商；IEEE还规定了有些环境下可以是使用本地管理MAC地址的方式不参与全球统一管理，也就意味着需要在MAC地址中添加一位标识位（一般都在第1字节的最低二位规定为G&#x2F;L位），以不参与全求管理；</p>
+<p>其中当节点适配器收到一个帧时，会有以下三种处理情况：</p>
+<ol>
+<li>单播：指定了MAC地址，并且当前节点适配器下有一样的MAC地址的终端。</li>
+<li>多播：制定了一部分，向符合条件的终端设备转发。</li>
+<li>广播：地址全为1，即向所有终端设备转发。</li>
+</ol>
+</li>
+<li><p>MAC帧的格式</p>
+<p>有两种格式</p>
+<ol>
+<li><p>DIX Ethernet V2标准：</p>
+<p>分为五个部分</p>
+<ol>
+<li><p>首同步码 （8Byte）</p>
+<p>也分为两部分</p>
+<ol>
+<li>前同步码：作用是是得接收端和发送端的时钟同步和定时，时钟对其之后就能实现高效安全的传输。<a href="%E5%AF%B9%E9%BD%90%E6%97%B6%E9%92%9F%E7%9A%84%E5%8E%9F%E5%9B%A0%E6%98%AF%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%B8%AD%E6%AF%8F%E4%B8%AA%E8%AE%BE%E5%A4%87%E7%9A%84%E5%A7%8B%E7%BB%88%E9%83%BD%E6%98%AF%E4%B8%8D%E4%B8%80%E6%A0%B7%E7%9A%84%EF%BC%8C%E4%B8%80%E4%BD%8D%E8%A6%81%E6%BB%A1%E8%B6%B3CSMA/CD%E5%8D%8F%E8%AE%AE%E7%9A%84%E8%A6%81%E6%B1%82%EF%BC%8C%E5%9C%A8%E4%BC%A0%E8%BE%93%E7%9A%84%E6%97%B6%E5%80%99%E5%B0%B1%E9%9C%80%E8%A6%81%E5%AF%B9%E9%BD%90%E5%90%8C%E6%AD%A5%E3%80%82">^注释1</a></li>
+<li>帧界定开始符号：提醒接收端后面的数据马上就是有效MAC帧了。</li>
+</ol>
+</li>
+<li><p>目的地址（6Byte）</p>
+</li>
+<li><p>源地址</p>
+</li>
+<li><p>类型号</p>
+</li>
+<li><p>数据</p>
+</li>
+<li><p>FCS<br>接收端是如何知道数据是否已经发送完毕：因为数据传输使用编码方式是曼切斯特编码，也就是说他的有效位一定是有变化的，要么是0要么是1，没有处在复位的情况，所以当处于复位状态的时候就说明数据已经传送完了。<br>数据的传输大小范围是46Byte — 1500Byte之间，会出现两种情况：</p>
+</li>
+<li><p>数据小于46Byte，当处于这种情况时我们就需要在MAC层将填不满46Byte的部分填充整数，当数据链路成将将数据传给网络层时候，网络层又会根据IP协议中标识的字节长度将多余的部分去掉。</p>
+</li>
+<li><p>数据大于46Byte，正常传输。</p>
+</li>
+</ol>
+</li>
+<li><p>IEEE 802.3</p>
+<ol>
+<li>能从图中看出相较于MAC帧第三个属性是（长度&#x2F;类型）因为使用了曼切斯特编码，长度字段已经没有了意义。</li>
+<li>当（长度&#x2F;类型）小于0x0600时数据字段必须装入上面逻辑链路控制LLC子层的LLC帧。<br><img src="https://img-blog.csdnimg.cn/20190903112448709.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lldHVnZW5n,size_16,color_FFFFFF,t_70"></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>扩展式以太网</p>
+<ul>
+<li><p>数据链路层的扩展以太网</p>
+<p>最初在两个以太网之间需要简洁通信的话，就需要一个叫“网桥”的设备，但是他只能连接两个独立的以太网，所以后面又提出了能连接更多独立以太网的设备“交换机”，它自带有处理器、储存器等器件实现对交换设备对应地址和端口记录，在负载较大时能够对数据帧进行暂存，转发其他独立以太网的数据帧。</p>
+<p>为什么连接上“网桥”“交换机”的以太网域称之为独立的呢，因为网桥交换机他们具有转发的功能并不是像集线器只负责集中发送，以太网使用的CSMA&#x2F;CD在同一个域中是会产生冲突的，交换机他下面的每一个集线器就是一个独立的冲突域，不与交换机其他端口下面的冲突域产生冲突。</p>
+<p>交换如何实现：交换机能够自动存储每一个端口对应的独立以太网，当交换机下其他域向另一个域发送信息时就能直接通过交换表对照发送给指定的端口；交换表是如何获得的：交换机是一个支持热插拔的设备，交换机会对每一个端口设备进行扫描并实时存储。</p>
+<p>当交换机不知道时就会直接广播。</p>
+</li>
+<li><p>虚拟以太网</p>
+<p>是由局域网网段构成的与物理关系无关的逻辑组，这些网段有一些共同的需求，每VLAN帧都有一个明确的标识符，指明发送这个帧的计算机属于哪一个VLAN。明确的标识符添加在源地址的后面，使得MAC帧的整体大小增大了四个Byte（1522Byte）。</p>
+<ul>
+<li>现在两个需要互信的设备在同一个VLAN下的话那么交换机只需要直接转发或者广播就行；</li>
+<li>现在两个需要互信的设备在不同VLAN但同一个交换机下的话那么就需要根据MAC帧里面的VLAN信息实现高效转发或者广播；</li>
+<li>当两个需要互信的设备不在同一个VLAN且不在一个交换机下的那么就需要将MAC帧中的VLAN信息撤掉，因为这些信息在另一个交换机看来是完全无法识别的。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+        </div>
+        <footer class="article-footer">
+            <a data-url="http://example.com/2023/10/18/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82-%E7%89%A9%E7%90%86%E5%B1%82/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82-%E7%89%A9%E7%90%86%E5%B1%82/" data-id="clnzilhml00047ov5aw29h9bo" data-title=""
+               class="article-share-link">Share</a>
+            
+            
+            
+            
+
+        </footer>
+    </div>
+    
+        
+    <nav id="article-nav" class="wow fadeInUp">
+        
+            <div class="article-nav-link-wrap article-nav-link-left">
+                
+                    
+                    
+                        <img data-src="/images/banner.jpg" data-sizes="auto" alt=""
+                             class="lazyload">
+                    
+                
+                <a href="/2023/10/18/%E7%BD%91%E7%BB%9C%E5%B1%82/%E7%BD%91%E7%BB%9C%E5%B1%82/"></a>
+                <div class="article-nav-caption">Newer</div>
+                <h3 class="article-nav-title">
+                    
+                        (no title)
+                    
+                </h3>
+            </div>
+        
+        
+            <div class="article-nav-link-wrap article-nav-link-right">
+                
+                    
+                    
+                        <img data-src="/images/banner.jpg" data-sizes="auto" alt=""
+                             class="lazyload">
+                    
+                
+                <a href="/2023/10/17/First/"></a>
+                <div class="article-nav-caption">Older</div>
+                <h3 class="article-nav-title">
+                    
+                        (no title)
+                    
+                </h3>
+            </div>
+        
+    </nav>
+
+
+    
+</article>
+
+
+
+
+
+
+
+
+
+
+
+</section>
+                
+                    <aside id="sidebar">
+    <div class="sidebar-wrap wow fadeInRight">
+        <div class="sidebar-author">
+            <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="John Doe" class="lazyload">
+            <div class="sidebar-author-name">John Doe</div>
+            <div class="sidebar-description"></div>
+        </div>
+        <div class="sidebar-state">
+            <div class="sidebar-state-article">
+                <div>Posts</div>
+                <div class="sidebar-state-number">5</div>
+            </div>
+            <div class="sidebar-state-category">
+                <div>Categories</div>
+                <div class="sidebar-state-number">0</div>
+            </div>
+            <div class="sidebar-state-tag">
+                <div>Tags</div>
+                <div class="sidebar-state-number">0</div>
+            </div>
+        </div>
+        <div class="sidebar-social">
+            
+                <div class=icon-github>
+                    <a href=https://github.com/yourname itemprop="url" target="_blank"></a>
+                </div>
+            
+                <div class=icon-google>
+                    <a href=https://plus.google.com/yourname itemprop="url" target="_blank"></a>
+                </div>
+            
+                <div class=icon-twitter>
+                    <a href=https://twitter.com/yourname itemprop="url" target="_blank"></a>
+                </div>
+            
+                <div class=icon-facebook>
+                    <a href=https://www.facebook.com/yourname itemprop="url" target="_blank"></a>
+                </div>
+            
+        </div>
+        <div class="sidebar-menu">
+            
+                <div class="sidebar-menu-link-wrap">
+                    <a class="sidebar-menu-link-dummy" href="/"></a>
+                    <span class="sidebar-menu-icon"></span>
+                    <div class="sidebar-menu-link">Home</div>
+                </div>
+            
+                <div class="sidebar-menu-link-wrap">
+                    <a class="sidebar-menu-link-dummy" href="/archives"></a>
+                    <span class="sidebar-menu-icon"></span>
+                    <div class="sidebar-menu-link">Archives</div>
+                </div>
+            
+                <div class="sidebar-menu-link-wrap">
+                    <a class="sidebar-menu-link-dummy" href="/about"></a>
+                    <span class="sidebar-menu-icon"></span>
+                    <div class="sidebar-menu-link">About</div>
+                </div>
+            
+                <div class="sidebar-menu-link-wrap">
+                    <a class="sidebar-menu-link-dummy" href="/friend"></a>
+                    <span class="sidebar-menu-icon"></span>
+                    <div class="sidebar-menu-link">Friend</div>
+                </div>
+            
+        </div>
+    </div>
+    
+        
+
+    
+        
+
+    
+        
+    <div class="widget-wrap wow fadeInRight">
+        <h3 class="widget-title">Archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a></li></ul>
+        </div>
+    </div>
+
+
+    
+</aside>
+
+                
+            </div>
+            <footer id="footer" class="wow fadeInUp">
+    <div style="width: 100%; overflow: hidden"><div class="footer-line"></div></div>
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            
+            <div>
+                <span class="icon-copyright"></span>
+                2020-2023
+                <span class="footer-info-sep"></span>
+                John Doe
+            </div>
+            
+                <div>
+                    Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>&nbsp;
+                    Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" target="_blank">Reimu</a>
+                </div>
+            
+            
+                <div>
+                    <span class="icon-brush"></span>
+                    12.6k
+                    &nbsp;|&nbsp;
+                    <span class="icon-coffee"></span>
+                    00:45
+                </div>
+            
+            
+                <div>
+                    <span class="icon-eye"></span>
+                    <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+                    &nbsp;|&nbsp;
+                    <span class="icon-user"></span>
+                    <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+                </div>
+            
+        </div>
+    </div>
+</footer>
+
+        </div>
+        <nav id="mobile-nav">
+    <div class="sidebar-wrap">
+        <div class="sidebar-author">
+            <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="John Doe" class="lazyload">
+            <div class="sidebar-author-name">John Doe</div>
+            <div class="sidebar-description"></div>
+        </div>
+        <div class="sidebar-state">
+            <div class="sidebar-state-article">
+                <div>Posts</div>
+                <div class="sidebar-state-number">5</div>
+            </div>
+            <div class="sidebar-state-category">
+                <div>Categories</div>
+                <div class="sidebar-state-number">0</div>
+            </div>
+            <div class="sidebar-state-tag">
+                <div>Tags</div>
+                <div class="sidebar-state-number">0</div>
+            </div>
+        </div>
+        <div class="sidebar-social">
+            
+                <div class=icon-github>
+                    <a href=https://github.com/yourname itemprop="url" target="_blank"></a>
+                </div>
+            
+                <div class=icon-google>
+                    <a href=https://plus.google.com/yourname itemprop="url" target="_blank"></a>
+                </div>
+            
+                <div class=icon-twitter>
+                    <a href=https://twitter.com/yourname itemprop="url" target="_blank"></a>
+                </div>
+            
+                <div class=icon-facebook>
+                    <a href=https://www.facebook.com/yourname itemprop="url" target="_blank"></a>
+                </div>
+            
+        </div>
+        <div class="sidebar-menu">
+            
+                <div class="sidebar-menu-link-wrap">
+                    <a class="sidebar-menu-link-dummy" href="/"></a>
+                    <span class="sidebar-menu-icon"></span>
+                    <div class="sidebar-menu-link">Home</div>
+                </div>
+            
+                <div class="sidebar-menu-link-wrap">
+                    <a class="sidebar-menu-link-dummy" href="/archives"></a>
+                    <span class="sidebar-menu-icon"></span>
+                    <div class="sidebar-menu-link">Archives</div>
+                </div>
+            
+                <div class="sidebar-menu-link-wrap">
+                    <a class="sidebar-menu-link-dummy" href="/about"></a>
+                    <span class="sidebar-menu-icon"></span>
+                    <div class="sidebar-menu-link">About</div>
+                </div>
+            
+                <div class="sidebar-menu-link-wrap">
+                    <a class="sidebar-menu-link-dummy" href="/friend"></a>
+                    <span class="sidebar-menu-icon"></span>
+                    <div class="sidebar-menu-link">Friend</div>
+                </div>
+            
+        </div>
+    </div>
+</nav>
+
+        
+<script src="https://unpkg.com/jquery@3.7.0/dist/jquery.min.js"></script>
+
+
+<script src="https://unpkg.com/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://unpkg.com/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+    
+<script src="https://unpkg.com/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+
+
+    
+<script src="https://unpkg.com/busuanzi@2.3.0/bsz.pure.mini.js"></script>
+
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+    <div class="site-search">
+        <div class="algolia-popup popup">
+            <div class="algolia-search">
+                <span class="algolia-search-input-icon"></span>
+                <div class="algolia-search-input" id="algolia-search-input"></div>
+            </div>
+
+            <div class="algolia-results">
+                <div id="algolia-stats"></div>
+                <div id="algolia-hits"></div>
+                <div id="algolia-pagination" class="algolia-pagination"></div>
+            </div>
+
+            <span class="popup-btn-close"></span>
+        </div>
+    </div>
+    <!-- hexo injector body_end start -->
+<script src="/js/insertHighlight.js"></script>
+<!-- hexo injector body_end end --></body>
+    </html>
+
